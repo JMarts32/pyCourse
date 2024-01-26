@@ -7,6 +7,12 @@ used_letters = []
 word_to_guess = "java"
 guess_list = ["_" for i in range(len(word_to_guess))]
 
+"""
+This function allows to check if the letter given by the user
+is in the word that is supposed to be guessed. If it is not
+the user has one try less. All of the words given by the user
+are stored.
+"""
 def guess(letter, word, used_letters_list, guess_print_list, number_of_tries):
     used_letters_list.append(letter)
     if (letter in word):
@@ -23,6 +29,12 @@ def guess(letter, word, used_letters_list, guess_print_list, number_of_tries):
         number_of_tries -= 1
     return number_of_tries
 
+"""
+This loop control the times the user can input letters using
+the tries and the variable that indicates if the word is already
+guessed by the user. The user can only input different letters.
+When the user is out of tries it is Game Over!
+"""
 while (tries > 0 and word_guessed == False):
     print("You have", tries, "tries left")
     print("Used letters:", ", ".join(used_letters))
