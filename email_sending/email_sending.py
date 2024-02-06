@@ -1,20 +1,18 @@
 from email.mime.application import MIMEApplication
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-from datetime import date, timedelta
+from datetime import datetime, timedelta, date
+import time
 import smtplib
 import getpass
 import sched
 
 
-def snd_mail():
+def snd_mail(from_mail, password):
     HOST = "smtp-mail.outlook.com"
     PORT = 587
 
-    print("Please make sure that the email is from microsoft :D")
-    FROM = input("Enter the email where you are sending the emails: ")
     TO_EMAIL = ["jm2002.santosa@gmail.com"]
-    PASSWORD = getpass.getpass("Enter the password: ")
 
     SUBJECT = "Test Subject"
     BODY = "Hola Juan"
@@ -35,7 +33,7 @@ def snd_mail():
     logs.write(str(tls_statuscode) + "\n")
     logs.write(str(tls_reponse) + "\n")
     # Login into the emial
-    login_statuscode, login_repsonse = smtp.login(FROM, PASSWORD)
+    login_statuscode, login_repsonse = smtp.login(from_mail, password)
     logs.write(str(login_statuscode) + "\n")
     logs.write(str(login_repsonse) + "\n")
 
@@ -45,7 +43,7 @@ def snd_mail():
     for mail in TO_EMAIL:
         # Compose the email
         msg = MIMEMultipart()
-        msg['From'] = FROM
+        msg['From'] = from_mail
         msg['To'] = mail
         msg['Subject'] = SUBJECT
 
@@ -58,7 +56,7 @@ def snd_mail():
             msg.attach(part)
 
         try:
-            smtp.sendmail(FROM, mail, msg.as_string())
+            smtp.sendmail(from_mail, mail, msg.as_string())
         except:
             error = "Error sending email to " + mail
             logs.write(error + "\n")
@@ -66,3 +64,40 @@ def snd_mail():
     # Closes the connection after sending the emails
     smtp.quit()
     logs.close()
+
+def calculate_next_send(hour, minutes, seconds):
+    # Get the current time
+    now = datetime.now()
+
+    # Set the desired time for the next time of sendind emails
+    next_run = datetime(now.year, now.month, now.day, hour, minutes, seconds)
+
+    # If the next run time is in the past, schedule it for the next day
+    if now > next_run:
+        next_run += timedelta(days=1)
+
+    # Return the next run time as a timestamp
+    return time.mktime(next_run.timetuple())
+
+# Create a scheduler
+s = sched.scheduler(time.time, time.sleep)
+
+print("Welcome to the automatic sending email software :D")
+
+try: 
+    print("\nPlease make sure that the email is from microsoft :D")
+    from_mail = input("Enter the email where you are sending the emails: ")
+    password = getpass.getpass("Enter the password: ")
+
+    hour = int(input("\nEnter the hour where you want to send the emails: "))
+    minutes = int(input("Enter the minutes where you want to send the emails: "))
+    seconds = int(input("Enter the seconds where you want to send the emails: "))
+except:
+    print("The time must be a numerical value in the 24 hour format")
+
+print("\n The mails are goinr to be sent at", str(hour) + ":" + str(minutes) + ":" + str(seconds))
+
+s.enterabs(calculate_next_send(hour, minutes, seconds), 1, snd_mail(from_mail,password), ())
+
+# Start the scheduler
+s.run()
