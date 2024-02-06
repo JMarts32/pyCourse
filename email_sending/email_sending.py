@@ -84,20 +84,27 @@ s = sched.scheduler(time.time, time.sleep)
 
 print("Welcome to the automatic sending email software :D")
 
-try: 
-    print("\nPlease make sure that the email is from microsoft :D")
-    from_mail = input("Enter the email where you are sending the emails: ")
-    password = getpass.getpass("Enter the password: ")
+print("\nPlease make sure that the email is from microsoft :D")
+from_mail = input("Enter the email where you are sending the emails: ")
+password = getpass.getpass("Enter the password: ")
 
-    hour = int(input("\nEnter the hour where you want to send the emails: "))
-    minutes = int(input("Enter the minutes where you want to send the emails: "))
-    seconds = int(input("Enter the seconds where you want to send the emails: "))
-except:
-    print("The time must be a numerical value in the 24 hour format")
+decision = input("Do you want to schedule? (Y/N): ")
 
-print("\n The mails are goinr to be sent at", str(hour) + ":" + str(minutes) + ":" + str(seconds))
+if decision.lower() == "y":
+    try: 
+        hour = int(input("\nEnter the hour where you want to send the emails: "))
+        minutes = int(input("Enter the minutes where you want to send the emails: "))
+        seconds = int(input("Enter the seconds where you want to send the emails: "))
+    except:
+        print("The time must be a numerical value in the 24 hour format")
 
-s.enterabs(calculate_next_send(hour, minutes, seconds), 1, snd_mail(from_mail,password), ())
+    print("\n The mails are goinr to be sent at", str(hour) + ":" + str(minutes) + ":" + str(seconds))
 
-# Start the scheduler
-s.run()
+    s.enterabs(calculate_next_send(hour, minutes, seconds), 1, snd_mail(from_mail,password), ())
+
+    # Start the scheduler
+    s.run()
+elif decision.lower() == "n":
+    snd_mail(from_mail,password)
+else:
+    print("\nno valid selection")
