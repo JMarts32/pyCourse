@@ -2,11 +2,11 @@ import tkinter as tk
 from tkinter import ttk
 import WeatherApp_Controller as controller
 
-def update_weather():
-    # Lógica para actualizar el clima con la ubicación ingresada
-    location = location_entry.get()
-    # Llamar a la función de controlador con la ubicación
-    controller.update_weather(location)
+temp = 0
+wind_speed = 0
+
+def update_weather(location):
+    return controller.update_weather(location)
 
 # Crear la ventana principal
 root = tk.Tk()
