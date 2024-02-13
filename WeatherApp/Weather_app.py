@@ -8,7 +8,7 @@ from datetime import datetime
 # Create a function to get the weather data
 def get_weather():
     # Get the API key
-    api_key = "194320bc372cf6562146f814a5eab73e"
+    api_key = "frog" # :D
 
     # Get the location
     location = location_entry.get()
