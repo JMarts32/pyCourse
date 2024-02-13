@@ -1,7 +1,5 @@
 from io import BytesIO
 import requests
-import json
-import tkinter as tk
 from tkinter import *
 from tkinter import ttk
 from PIL import Image, ImageTk
