@@ -32,23 +32,22 @@ def remove_employee(employees, name):
             return
     print(f"Employee with name {name} not found.")
 
-# Sample usage
-if __name__ == "__main__":
-    # Create an empty list to store employee objects
-    employee_list = []
 
-    # Add employees to the system
-    add_employee(employee_list, Employee("Juan Martin", 21, "IT", 250000.0))
-    add_employee(employee_list, Employee("Silvia", 27, "HR", 45000.0))
+# Create an empty list to store employee objects
+employee_list = []
 
-    # Display details of all employees
-    display_employees(employee_list)
+# Add employees to the system
+add_employee(employee_list, Employee("Juan Martin", 21, "IT", 250000.0))
+add_employee(employee_list, Employee("Silvia", 27, "HR", 45000.0))
 
-    # Update employee salary
-    update_employee_salary(employee_list, "Silvia", 55000.0)
+# Display details of all employees
+display_employees(employee_list)
 
-    # Remove an employee
-    remove_employee(employee_list, "Juan Martin")
+# Update employee salary
+update_employee_salary(employee_list, "Silvia", 55000.0)
 
-    # Display updated details of remaining employees
-    display_employees(employee_list)
+# Remove an employee
+remove_employee(employee_list, "Juan Martin")
+
+# Display updated details of remaining employees
+display_employees(employee_list)
